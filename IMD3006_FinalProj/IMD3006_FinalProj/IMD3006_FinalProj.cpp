@@ -15,20 +15,13 @@ int main()
 		cin >> userTxt;
 	}*/
 
-	std::string word;
 	ifstream wordList("wordlist.txt");
-	if (wordList.is_open()) {
-		while (getline(wordList, word)) {
-			std::cout << word << endl;
-		}
+	string word;
 
-		wordList.close();
+	//unsigned int lineNum = 0;
+	while (getline(wordList, word)) {
+		cout << word << endl;
 	}
-	else {
-		std::cout << "error, file not open" << endl;
-	}
-	std::cin.get();
-	return 0;
 	
 }
 
