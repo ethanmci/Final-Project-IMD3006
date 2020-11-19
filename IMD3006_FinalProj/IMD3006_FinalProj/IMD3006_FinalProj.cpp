@@ -2,16 +2,34 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <string>
 #include "player.h"
 using namespace std;
 
 
 int main()
 {
-	while (1) {
+	/*while (1) {
 		string userTxt;
 		cin >> userTxt;
+	}*/
+
+	std::string word;
+	ifstream wordList("wordlist.txt");
+	if (wordList.is_open()) {
+		while (getline(wordList, word)) {
+			std::cout << word << endl;
+		}
+
+		wordList.close();
 	}
+	else {
+		std::cout << "error, file not open" << endl;
+	}
+	std::cin.get();
+	return 0;
+	
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
