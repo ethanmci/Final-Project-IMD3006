@@ -2,10 +2,16 @@
 //
 
 #include <iostream>
+#include "player.h"
+using namespace std;
+
 
 int main()
 {
-    
+	while (1) {
+		string userTxt;
+		cin >> userTxt;
+	}
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
