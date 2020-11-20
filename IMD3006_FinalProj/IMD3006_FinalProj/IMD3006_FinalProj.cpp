@@ -5,6 +5,9 @@
 #include <fstream>
 #include <string>
 #include "player.h"
+
+#include <stdlib.h>  
+#include <time.h> 
 using namespace std;
 
 
@@ -17,12 +20,26 @@ int main()
 
 	ifstream wordList("wordlist.txt");
 	string word;
+	string wordArray[980];
+	unsigned int lineNum = 0;
+	int randomGen;
 
-	//unsigned int lineNum = 0;
+	srand(time(NULL));
+
+	randomGen = rand() % 980 + 1;
+
 	while (getline(wordList, word)) {
-		cout << word << endl;
+		wordArray[lineNum] = word;
+		//cout << wordArray[lineNum] << endl;
+		lineNum++;
+
+
+
+
+
+		//cout << word << endl;
 	}
-	
+	cout << wordArray[randomGen] << endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
