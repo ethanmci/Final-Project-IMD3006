@@ -39,7 +39,13 @@ int main()
 
 		//cout << word << endl;
 	}
-	cout << wordArray[randomGen] << endl;
+	cout << "word: ";
+	for (size_t x = 0, length = wordArray[randomGen].length(); x != length; ++x)
+	{
+		cout << "_ ";
+	}
+
+	cout << endl << wordArray[randomGen] << endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
