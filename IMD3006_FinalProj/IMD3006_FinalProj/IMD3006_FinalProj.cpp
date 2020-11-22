@@ -23,6 +23,7 @@ int main()
 	string wordArray[980];
 	unsigned int lineNum = 0;
 	int randomGen;
+	char playerGuess;
 
 	srand(time(NULL));
 
@@ -46,6 +47,17 @@ int main()
 	}
 
 	cout << endl << wordArray[randomGen] << endl;
+
+	do {
+		cin >> playerGuess;
+		if (wordArray[randomGen].find(playerGuess) != std::string::npos) {
+			cout << "letter is in the word!" << endl;
+		}
+		else {
+			cout << "letter is not in the word!" << endl;
+		}
+	} while (true);
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
