@@ -24,6 +24,7 @@ int main()
 	string wordArray[980];
 	unsigned int lineNum = 0;
 	int randomGen;
+	string playerEntry; //should maybe replace player guess?
 	char playerGuess;
 	Player* currentPlayer = new Player();
 
@@ -50,10 +51,39 @@ int main()
 	}
 	*/
 
-
-	vector<char> playerGuesses;
+	cout << R"(
+  ______  ____  _____          _____ _____ _   _  _____  
+ |  ____|/ ____|/ ____|   /\   |  __ \_   _| \ | |/ ____| 
+ | |__  | (___ | |       /  \  | |__) || | |  \| | |  __  
+ |  __|  \___ \| |      / /\ \ |  ___/ | | | . ` | | |_ | 
+ | |____ ____) | |____ / ____ \| |    _| |_| |\  | |__| | 
+ |______|_____/_\_____/_/    \_\_|   |_____|_| \_|\_____| 
+ |__   __| |  | |  ____|                                  
+    | |  | |__| | |__                                     
+    | |  |  __  |  __|                                    
+    | |  | |  | | |____                                   
+   _|_|_ |_|  |_|______| _      ______          _______   
+  / ____|   /\   | |    | |    / __ \ \        / / ____|  
+ | |  __   /  \  | |    | |   | |  | \ \  /\  / / (___    
+ | | |_ | / /\ \ | |    | |   | |  | |\ \/  \/ / \___ \   
+ | |__| |/ ____ \| |____| |___| |__| | \  /\  /  ____) |  
+  \_____/_/    \_\______|______\____/   \/  \/  |_____/   
+)" << endl;
+	//gheto solution LOL, fix this later 
+	cout << "type 'start' to start!\n";
 	while (1) {
-		cout << endl << wordArray[randomGen] << endl; //debugging output
+		cin >> playerEntry;
+		if (playerEntry == "start") {
+			system("cls");
+			break;
+		}
+	}
+	//might wanna move these to the top ?
+	vector<char> playerGuesses;
+	string status;
+	while (1) {
+		cout << currentPlayer->getVis();
+		//cout << endl << wordArray[randomGen] << endl; //debugging output
 		cout << "word: ";
 		for (size_t x = 0, length = wordArray[randomGen].length(); x != length; ++x)
 		{
@@ -72,24 +102,24 @@ int main()
 
 		cin >> playerGuess;
 		if (wordArray[randomGen].find(playerGuess) != string::npos) {
-			cout << "letter is in the word!" << endl;
+			status = "letter is in the word!\n";
 		}
 		else {
-			cout << "letter is not in the word!" << endl;
-			currentPlayer->health--;
+			status = "letter is not in the word!\n";
+			currentPlayer->updateHealth(-1); //used to catch variable from going negative
 		}
 
 		//checking the player's status
 		if (currentPlayer->health <= 0) {
-			cout << "You have died\n";
+			status += "You have died\n";
 		}
 		else {
 			//hangman output here?
-			cout << "You have " << currentPlayer->health << " health left!\n";
+			status += "You have " + to_string(currentPlayer->health) + " health left!\n";
 		}
 
 		playerGuesses.push_back(playerGuess);
-		//system("cls");
+		system("cls");
 	}
 
 
