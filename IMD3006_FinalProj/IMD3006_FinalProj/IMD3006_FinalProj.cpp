@@ -5,6 +5,8 @@
 #include <fstream>
 #include <string>
 #include "player.h"
+#include "enemy.h"
+
 
 #include <stdlib.h>  
 #include <time.h> 
@@ -14,11 +16,6 @@ using namespace std;
 
 int main()
 {
-	/*while (1) {
-		string userTxt;
-		cin >> userTxt;
-	}*/
-
 	ifstream wordList("wordlist.txt");
 	string word;
 	string wordArray[980];
@@ -34,22 +31,9 @@ int main()
 
 	while (getline(wordList, word)) {
 		wordArray[lineNum] = word;
-		//cout << wordArray[lineNum] << endl;
 		lineNum++;
-
-
-
-
-
 		//cout << word << endl;
 	}
-	/*
-	cout << "word: ";
-	for (size_t x = 0, length = wordArray[randomGen].length(); x != length; ++x)
-	{
-		cout << "_ ";
-	}
-	*/
 
 	cout << R"(
   ______  ____  _____          _____ _____ _   _  _____  
@@ -74,8 +58,10 @@ int main()
 	while (1) {
 		cin >> playerEntry;
 		if (playerEntry == "start") {
-			system("cls");
 			break;
+		}
+		else {
+			cout << "invalid entry"; //temp fix again :)
 		}
 	}
 	//might wanna move these to the top ?
