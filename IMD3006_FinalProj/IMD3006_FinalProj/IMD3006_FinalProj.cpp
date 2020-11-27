@@ -60,23 +60,30 @@ int main()
 		if (playerEntry == "start") {
 			break;
 		}
+		else  if (playerEntry == "credits") {
+			//any librarys that need credit go here?
+		}
 		else {
 			cout << "invalid entry"; //temp fix again :)
 		}
 	}
 	//might wanna move these to the top ?
-	vector<char> playerGuesses;
+	//vector<char> playerGuesses;
+	Enemy* testEnemy = new Enemy(wordArray[randomGen]);
 	string status;
 	while (1) {
 		cout << currentPlayer->getVis();
-		//cout << endl << wordArray[randomGen] << endl; //debugging output
+		cout << endl << testEnemy->selWord << endl; //debugging output
+		cout << testEnemy->getVis();
+		if (testEnemy->pastGuesses.size() == 0)
+			cout << "a " << testEnemy->getEnemyType() << " approaches!\n";
 		cout << "word: ";
-		for (size_t x = 0, length = wordArray[randomGen].length(); x != length; ++x)
+		for (int x = 0; x < testEnemy->selWord.length(); ++x)
 		{
 			bool isGuessed = false;
-			for (int j = 0; j < playerGuesses.size(); j++) {
-				if (wordArray[randomGen][x] == playerGuesses[j]) {
-					cout << wordArray[randomGen][x] << " ";
+			for (int j = 0; j < testEnemy->pastGuesses.size(); j++) {
+				if (testEnemy->selWord[x] == testEnemy->pastGuesses[j]) {
+					cout << testEnemy->selWord[x] << " ";
 					isGuessed = true;
 				}
 			}
@@ -87,7 +94,7 @@ int main()
 		cout << endl;
 
 		cin >> playerGuess;
-		if (wordArray[randomGen].find(playerGuess) != string::npos) {
+		if (testEnemy->selWord.find(playerGuess) != string::npos) {
 			status = "letter is in the word!\n";
 		}
 		else {
@@ -104,7 +111,7 @@ int main()
 			status += "You have " + to_string(currentPlayer->health) + " health left!\n";
 		}
 
-		playerGuesses.push_back(playerGuess);
+		testEnemy->pastGuesses.push_back(playerGuess);
 		system("cls");
 	}
 
