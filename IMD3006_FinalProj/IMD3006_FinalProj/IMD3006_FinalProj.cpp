@@ -6,13 +6,17 @@
 #include <string>
 #include "player.h"
 #include "enemy.h"
-
+#include "Encounter.h"
+#include "Level.h"
 
 #include <stdlib.h>  
 #include <time.h> 
 #include <vector>
 using namespace std;
 
+void gameEncounters(Level* level) {
+	level->currentEncounter()->getEncoutnerVis();
+}
 
 int main()
 {
@@ -90,6 +94,8 @@ int main()
 		}
 		//might wanna move these to the top?
 		else if (state == "GAME") {
+			Level* level = new Level(difficulty, wordArray);
+			gameEncounters(level);
 			Enemy* testEnemy = new Enemy(wordArray[randomGen]);
 			string status;
 			while (currentPlayer->health>0) {
