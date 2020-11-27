@@ -160,7 +160,19 @@ int main()
  | | |_ | / /\ \ | |\/| |  __|   | |  | |\ \/ / |  __| |  _  / 
  | |__| |/ ____ \| |  | | |____  | |__| | \  /  | |____| | \ \ 
   \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\
-)";
+)" << endl << endl;
+			cout << "type restart to try again!" << endl;
+			while (state == "GAME OVER") {
+				cin >> playerEntry;
+				if (playerEntry == "restart") {
+					system("cls");
+					difficulty = 0;
+					currentPlayer->updateHealth(7);
+					state = "SELECT_DIFF";
+					break;
+				}
+			} 
+
 		}
 	}
 
