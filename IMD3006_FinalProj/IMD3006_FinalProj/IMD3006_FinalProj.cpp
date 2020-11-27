@@ -58,6 +58,7 @@ int main()
 	while (1) {
 		cin >> playerEntry;
 		if (playerEntry == "start") {
+			system("cls");
 			break;
 		}
 		else  if (playerEntry == "credits") {
