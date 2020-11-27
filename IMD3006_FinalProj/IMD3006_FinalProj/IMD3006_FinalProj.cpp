@@ -26,6 +26,7 @@ int main()
 	Player* currentPlayer = new Player();
 	string state = "NEW_GAME";
 	int difficulty = 0;
+	bool alreadyGuessed = false;
 
 	srand(time(NULL));
 
@@ -93,6 +94,11 @@ int main()
 			string status;
 			while (1) {
 				cout << currentPlayer->getVis();
+				cout << "Guesses[";
+				for (int g = 0; g < testEnemy->pastGuesses.size(); g++) {
+					cout << testEnemy->pastGuesses[g] << ", ";
+				}
+				cout << "]";
 				cout << endl << testEnemy->selWord << endl; //debugging output
 				cout << testEnemy->getVis();
 				if (testEnemy->pastGuesses.size() == 0)
@@ -113,26 +119,34 @@ int main()
 				}
 				cout << endl;
 
-				cin >> playerGuess;
-				if (testEnemy->selWord.find(playerGuess) != string::npos) {
-					status = "letter is in the word!\n";
-				}
-				else {
-					status = "letter is not in the word!\n";
-					currentPlayer->updateHealth(-1); //used to catch variable from going negative
-				}
+				do {
+					cin >> playerGuess;
+					alreadyGuessed = false;
+					for (int t = 0; t < testEnemy->pastGuesses.size(); t++) {
+						if (playerGuess == testEnemy->pastGuesses[t]) {
+							alreadyGuessed = true;
+						}
+					}
+				} while (alreadyGuessed == true);
+					if (testEnemy->selWord.find(playerGuess) != string::npos) {
+						status = "letter is in the word!\n";
+					}
+					else {
+						status = "letter is not in the word!\n";
+						currentPlayer->updateHealth(-1); //used to catch variable from going negative
+					}
 
-				//checking the player's status
-				if (currentPlayer->health <= 0) {
-					status += "You have died\n";
-				}
-				else {
-					//hangman output here?
-					status += "You have " + to_string(currentPlayer->health) + " health left!\n";
-				}
+					//checking the player's status
+					if (currentPlayer->health <= 0) {
+						status += "You have died\n";
+					}
+					else {
+						//hangman output here?
+						status += "You have " + to_string(currentPlayer->health) + " health left!\n";
+					}
 
-				testEnemy->pastGuesses.push_back(playerGuess);
-				system("cls");
+					testEnemy->pastGuesses.push_back(playerGuess);
+					system("cls");				
 			}
 		}
 	}
