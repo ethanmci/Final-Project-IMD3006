@@ -92,13 +92,14 @@ int main()
 		else if (state == "GAME") {
 			Enemy* testEnemy = new Enemy(wordArray[randomGen]);
 			string status;
-			while (1) {
+			while (currentPlayer->health>0) {
 				cout << currentPlayer->getVis();
 				cout << "Guesses[";
 				for (int g = 0; g < testEnemy->pastGuesses.size(); g++) {
 					cout << testEnemy->pastGuesses[g] << ", ";
 				}
 				cout << "]";
+				//cout << currentPlayer->health;
 				cout << endl << testEnemy->selWord << endl; //debugging output
 				cout << testEnemy->getVis();
 				if (testEnemy->pastGuesses.size() == 0)
@@ -138,7 +139,8 @@ int main()
 
 					//checking the player's status
 					if (currentPlayer->health <= 0) {
-						status += "You have died\n";
+						state = "GAME OVER";
+						//status += "You have died\n";
 					}
 					else {
 						//hangman output here?
@@ -146,8 +148,19 @@ int main()
 					}
 
 					testEnemy->pastGuesses.push_back(playerGuess);
-					system("cls");				
+					system("cls");		
 			}
+		}
+		else if (state == "GAME OVER") {
+			system("cls");
+			cout << R"(
+   _____          __  __ ______    ______      ________ _____  
+  / ____|   /\   |  \/  |  ____|  / __ \ \    / /  ____|  __ \ 
+ | |  __   /  \  | \  / | |__    | |  | \ \  / /| |__  | |__) |
+ | | |_ | / /\ \ | |\/| |  __|   | |  | |\ \/ / |  __| |  _  / 
+ | |__| |/ ____ \| |  | | |____  | |__| | \  /  | |____| | \ \ 
+  \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\
+)";
 		}
 	}
 
