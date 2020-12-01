@@ -2,13 +2,14 @@
 #include "Encounter.h"
 #include <string>
 #include <vector>
+#include <variant>
 using namespace std;
 class Level
 {
 public:
 	int posInLvl;
 	int difficulty;
-	Encounter** encounters[10];
+	vector<Encounter*> encounters;
 
 	//functions
 	Level(int newDiff, string* wordList);

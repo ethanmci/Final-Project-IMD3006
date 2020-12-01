@@ -1,22 +1,25 @@
 #include "Encounter.h"
 #include <iostream>
 
+
+
 void ItemEncounter::getEncounterVis()
 {
-	cout << "this is an item";
+	//this->item->getVis();
+}
+
+ItemEncounter::ItemEncounter()
+{
+	encounterType = "ITEM";
 }
 
 EnemyEncounter::EnemyEncounter(string word)
 {
+	encounterType = "ENEMY";
 	this->enemy = new Enemy(word);
 }
 
-void EnemyEncounter::getEncounterVis() const
+void EnemyEncounter::getEncounterVis() 
 {
-}
-
-
-void Encounter::getEncoutnerVis() 
-{
-	//do nothing lol
+	this->enemy->getVis();
 }

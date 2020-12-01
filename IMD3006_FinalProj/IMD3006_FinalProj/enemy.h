@@ -93,5 +93,6 @@ l42 ==' '==
 	string getVis();
 	string getEnemyType();
 	Enemy(string newWord);
+	void update();
 };
 

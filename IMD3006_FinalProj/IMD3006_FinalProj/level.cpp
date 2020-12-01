@@ -4,9 +4,9 @@ Level::Level(int newDiff, string *wordList)
 {
 	this->difficulty = newDiff;
 	this->posInLvl = 0;
-	for (int i = 0; i < 1; i++) {
+	for (int i = 0; i < 10; i++) {
 		if (i % 4 == 0 && i != 0) {
-			this->encounters = new ItemEncounter();
+			this->encounters.insert(this->encounters.begin(), new ItemEncounter());
 		}
 		else {
 			string selWord;
@@ -27,12 +27,13 @@ Level::Level(int newDiff, string *wordList)
 						validWord = true;
 				}
 			}
-			this->encounters = new EnemyEncounter(selWord);
+			this->encounters.insert(this->encounters.begin(), new EnemyEncounter(selWord));
 		}
 	}
 }
 
 Encounter* Level::currentEncounter()
-{
-	return this->encounters;
+{		
+	return this->encounters[posInLvl];
+
 }

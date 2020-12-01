@@ -4,18 +4,15 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "player.h"
-#include "enemy.h"
-#include "Encounter.h"
-#include "Level.h"
-
 #include <stdlib.h>  
 #include <time.h> 
 #include <vector>
+
+#include "GameClassesHeader.h" //includes all game specific classes
 using namespace std;
 
 void gameEncounters(Level* level) {
-	level->currentEncounter()->getEncoutnerVis();
+	level->currentEncounter()->getEncounterVis();
 }
 
 int main()
@@ -96,46 +93,47 @@ int main()
 		else if (state == "GAME") {
 			Level* level = new Level(difficulty, wordArray);
 			gameEncounters(level);
-			Enemy* testEnemy = new Enemy(wordArray[randomGen]);
-			string status;
-			while (currentPlayer->health>0) {
-				cout << currentPlayer->getVis();
-				cout << "Guesses[";
-				for (int g = 0; g < testEnemy->pastGuesses.size(); g++) {
-					cout << testEnemy->pastGuesses[g] << ", ";
-				}
-				cout << "]";
-				//cout << currentPlayer->health;
-				cout << endl << testEnemy->selWord << endl; //debugging output
-				cout << testEnemy->getVis();
-				if (testEnemy->pastGuesses.size() == 0)
-					cout << "a " << testEnemy->getEnemyType() << " approaches!\n";
-				cout << "word: ";
-				for (int x = 0; x < testEnemy->selWord.length(); ++x)
-				{
-					bool isGuessed = false;
-					for (int j = 0; j < testEnemy->pastGuesses.size(); j++) {
-						if (testEnemy->selWord[x] == testEnemy->pastGuesses[j]) {
-							cout << testEnemy->selWord[x] << " ";
-							isGuessed = true;
-						}
+			if (level->currentEncounter()->encounterType == "ENEMY") {
+				Enemy* currentEnemy = dynamic_cast<EnemyEncounter*>(level->currentEncounter())->enemy;
+				string status;
+				while (currentPlayer->health > 0) {
+					cout << currentPlayer->getVis();
+					cout << "Guesses[";
+					for (int g = 0; g < currentEnemy->pastGuesses.size(); g++) {
+						cout << currentEnemy->pastGuesses[g] << ", ";
 					}
-
-					if (!isGuessed)
-						cout << "_ ";
-				}
-				cout << endl;
-
-				do {
-					cin >> playerGuess;
-					alreadyGuessed = false;
-					for (int t = 0; t < testEnemy->pastGuesses.size(); t++) {
-						if (playerGuess == testEnemy->pastGuesses[t]) {
-							alreadyGuessed = true;
+					cout << "]";
+					cout << endl << currentEnemy->selWord << endl; //debugging output
+					currentEnemy->update();
+					cout << currentEnemy->getVis();
+					if (currentEnemy->pastGuesses.size() == 0)
+						cout << "a " << currentEnemy->getEnemyType() << " approaches!\n";
+					cout << "word: ";
+					for (int x = 0; x < currentEnemy->selWord.length(); ++x)
+					{
+						bool isGuessed = false;
+						for (int j = 0; j < currentEnemy->pastGuesses.size(); j++) {
+							if (currentEnemy->selWord[x] == currentEnemy->pastGuesses[j]) {
+								cout << currentEnemy->selWord[x] << " ";
+								isGuessed = true;
+							}
 						}
+
+						if (!isGuessed)
+							cout << "_ ";
 					}
-				} while (alreadyGuessed == true);
-					if (testEnemy->selWord.find(playerGuess) != string::npos) {
+					cout << endl;
+
+					do {
+						cin >> playerGuess;
+						alreadyGuessed = false;
+						for (int t = 0; t < currentEnemy->pastGuesses.size(); t++) {
+							if (playerGuess == currentEnemy->pastGuesses[t]) {
+								alreadyGuessed = true;
+							}
+						}
+					} while (alreadyGuessed == true);
+					if (currentEnemy->selWord.find(playerGuess) != string::npos) {
 						status = "letter is in the word!\n";
 					}
 					else {
@@ -153,8 +151,12 @@ int main()
 						status += "You have " + to_string(currentPlayer->health) + " health left!\n";
 					}
 
-					testEnemy->pastGuesses.push_back(playerGuess);
-					system("cls");		
+					currentEnemy->pastGuesses.push_back(playerGuess);
+					system("cls");
+				}		
+			}
+			else if (level->currentEncounter()->encounterType == "ITEM") {
+			
 			}
 		}
 		else if (state == "GAME OVER") {
