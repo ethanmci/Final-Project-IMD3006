@@ -40,3 +40,33 @@ void Enemy::update()
 		}
 	}
 }
+
+void Enemy::display()
+{
+	for (int g = 0; g < this->pastGuesses.size(); g++) {
+		cout << this->pastGuesses[g] << ", ";
+	}
+	cout << "]";
+	cout << endl << this->selWord << endl; //debugging output
+	this->update();
+	cout << this->getVis();
+	if (this->pastGuesses.size() == 0)
+		cout << "a " << this->getEnemyType() << " approaches!\n";
+	else if(this->dead)
+		cout << "a " << this->getEnemyType() << " has been defeated!\n";
+	cout << "word: ";
+	for (int x = 0; x < this->selWord.length(); ++x)
+	{
+		bool isGuessed = false;
+		for (int j = 0; j < this->pastGuesses.size(); j++) {
+			if (this->selWord[x] == this->pastGuesses[j]) {
+				cout << this->selWord[x] << " ";
+				isGuessed = true;
+			}
+		}
+
+		if (!isGuessed)
+			cout << "_ ";
+	}
+	cout << endl;
+}

@@ -1,12 +1,14 @@
 #pragma once
 #include <string>
+#include "Item.h"
+#include <vector>
 using namespace std;
 class Player
 {
 public:
 	//variables / data
 	int health;
-	Player();
+	vector<Item*> inventory;
     string healthVis[7] = {
 R"(
   +---+
@@ -83,6 +85,8 @@ R"(
 	
 	//methods
 	string getVis();
+	string getInv();
+	Player();
 	void updateHealth(int updateAmt);
 };
 

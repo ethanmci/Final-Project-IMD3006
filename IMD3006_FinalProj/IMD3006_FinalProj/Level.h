@@ -10,9 +10,11 @@ public:
 	int posInLvl;
 	int difficulty;
 	vector<Encounter*> encounters;
+	bool levelComplete;
 
 	//functions
 	Level(int newDiff, string* wordList);
 	Encounter* currentEncounter();
+	void nextEncounter();
 };
 

@@ -1,11 +1,11 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <iostream>
 using namespace std;
 class Enemy
 {
 public:
-	//placeholder art? we gotta keep the signatures if we use it
 	string visuals[3] = {
 	R"(
  .-.
@@ -44,7 +44,6 @@ l42 ==' '==
   \______(_______;;; __;;;	
 )"
 	};
-
 	string visualsDeadVar[3] = {
 R"(
  .-.
@@ -94,5 +93,6 @@ l42 ==' '==
 	string getEnemyType();
 	Enemy(string newWord);
 	void update();
+	void display();
 };
 

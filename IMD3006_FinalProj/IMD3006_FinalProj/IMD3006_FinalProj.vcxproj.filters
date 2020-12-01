@@ -50,12 +50,12 @@
     <ClInclude Include="Item.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameClassesHeader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="wordlist.txt">
-      <Filter>Resource Files</Filter>
-    </Text>
-    <Text Include="enemy_visuals.txt">
       <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
