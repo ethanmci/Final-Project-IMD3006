@@ -29,6 +29,14 @@ int main()
 	string state = "NEW_GAME";
 	int difficulty = 0;
 	bool alreadyGuessed = false;
+	int score = 0;
+	/*if (pastGuesses.size() == wordlength)
+	score += 25
+	else if (round is over and health is not 0)
+	score += 10
+	if levels completed is a multiple of 5
+	score += 5
+		*/
 
 	srand(time(NULL));
 
