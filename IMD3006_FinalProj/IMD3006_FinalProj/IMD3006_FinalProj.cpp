@@ -36,6 +36,13 @@ int main()
 	score += 10
 	if levels completed is a multiple of 5
 	score += 5
+
+	also
+	line 392 up to 4 letter words
+	line 592 up to 5 letter words
+	the rest are 6 and longer
+
+
 		*/
 
 	srand(time(NULL));
