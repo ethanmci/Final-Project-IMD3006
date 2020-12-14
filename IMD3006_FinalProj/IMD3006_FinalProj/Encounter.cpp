@@ -1,8 +1,6 @@
 #include "Encounter.h"
 #include <iostream>
 
-
-
 void ItemEncounter::getEncounterVis()
 {
 	//this->item->getVis();
@@ -11,6 +9,7 @@ void ItemEncounter::getEncounterVis()
 ItemEncounter::ItemEncounter()
 {
 	encounterType = "ITEM";
+	this->item = new Item();
 }
 
 EnemyEncounter::EnemyEncounter(string word)

@@ -9,6 +9,7 @@ public:
 	string encounterType;
 };
 
+//item variant
 class ItemEncounter : public Encounter {
 public:
 	Item* item;
@@ -16,6 +17,7 @@ public:
 	ItemEncounter();
 };
 
+//enemy variant
 class EnemyEncounter : public Encounter {
 public: 
 	Enemy* enemy;
