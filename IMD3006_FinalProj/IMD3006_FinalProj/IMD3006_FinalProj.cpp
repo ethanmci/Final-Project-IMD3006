@@ -193,7 +193,7 @@ int main()
 					level->nextEncounter();
 					system("cls");
 				} else if (level->levelComplete){
-					cout << "the level is cleared!\n next level" <, endl;
+					cout << "the level is cleared!\n next level" << endl;
 					cin >> playerEntry;
 					difficulty++;
 					system("cls");
