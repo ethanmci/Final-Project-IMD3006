@@ -31,7 +31,6 @@ int main()
 	bool alreadyGuessed = false;
 	fstream scoreFile;
 	ifstream readFile;
-	string tempLines;
 	string readLine;
 	string playerName;
 	int score = 0;
@@ -92,7 +91,7 @@ int main()
 					//any librarys that need credit go here?
 				}
 				else {
-					cout << "invalid entry"; //temp fix again :)
+					cout << "invalid entry" << endl; //temp fix again :)
 				}
 			}
 		}
@@ -117,7 +116,7 @@ int main()
 			//actual game loop :)
 			while (state == "GAME") {
 				//cout << level->currentEncounter()->encounterType << "enc type\n";
-				if (level->currentEncounter()->encounterType == "ENEMY") {
+				if (level->currentEncounter()->encounterType == "ENEMY" && !level->levelComplete) {
 					Enemy* currentEnemy = dynamic_cast<EnemyEncounter*>(level->currentEncounter())->enemy;
 					string status;
 					while (currentPlayer->health > 0) {
@@ -171,30 +170,36 @@ int main()
 							cin >> playerEntry;
 							transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 							if (playerEntry == "next") {
-								//level next encounter
-								level->nextEncounter();
-								system("cls");
-								break;
+								if (level->levelComplete) {
+									difficulty++;
+									break;
+								}
+								else {
+									//level next encounter
+									level->nextEncounter();
+									system("cls");
+									break;
+								}
 							}
 						
 						}
 						system("cls");
 					}		
 				}
-				else if (level->currentEncounter()->encounterType == "ITEM") {
+				else if (level->currentEncounter()->encounterType == "ITEM" && !level->levelComplete) {
 					//add item collection here!
 					cout << "we is items\n";
 					cin >> playerEntry;
 					level->nextEncounter();
 					system("cls");
 				} else if (level->levelComplete){
-					cout << "the level is cleared!\n next level";
+					cout << "the level is cleared!\n next level" <, endl;
 					cin >> playerEntry;
+					difficulty++;
 					system("cls");
 					//increase difficulty / level size here!
 					break;
 				}
-				difficulty++;
 			}
 			
 		}
