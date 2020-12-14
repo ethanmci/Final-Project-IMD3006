@@ -196,6 +196,7 @@ int main()
 					cout << "the level is cleared!\n next level" << endl;
 					cin >> playerEntry;
 					difficulty++;
+					score += 5;
 					system("cls");
 					//increase difficulty / level size here!
 					break;
