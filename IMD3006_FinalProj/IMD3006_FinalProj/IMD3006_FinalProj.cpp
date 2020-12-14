@@ -163,7 +163,7 @@ int main()
 							if (currentEnemy->pastGuesses.size() == currentEnemy->selWord.size()) {
 								score += 25;
 							}
-							else {
+							else if (currentEnemy->pastGuesses.size() > currentEnemy->selWord.size()){
 								score += 10;
 							}
 							cout << "type 'next' to move to the next encounter\n";
