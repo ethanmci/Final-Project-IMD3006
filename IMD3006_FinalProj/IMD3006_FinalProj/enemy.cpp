@@ -43,6 +43,7 @@ void Enemy::update()
 
 void Enemy::display()
 {
+	cout << "Past Guesses[";
 	for (int g = 0; g < this->pastGuesses.size(); g++) {
 		cout << this->pastGuesses[g] << ", ";
 	}
