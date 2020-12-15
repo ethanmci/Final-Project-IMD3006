@@ -27,8 +27,12 @@ int main()
 	char playerGuess;
 	Player* currentPlayer = new Player();
 	string state = "NEW_GAME";
-	int difficulty = 0;
+	int difficulty = 1;
 	bool alreadyGuessed = false;
+	fstream scoreFile;
+	ifstream readFile;
+	string readLine;
+	string playerName;
 	int score = 0;
 	/*if (pastGuesses.size() == wordlength)
 	score += 25
@@ -80,18 +84,18 @@ int main()
 				cin >> playerEntry;
 				if (playerEntry == "start") {
 					system("cls");
-					state = "SELECT_DIFF";
+					state = "GAME";
 					break;
 				}
 				else  if (playerEntry == "credits") {
 					//any librarys that need credit go here?
 				}
 				else {
-					cout << "invalid entry"; //temp fix again :)
+					cout << "invalid entry" << endl; //temp fix again :)
 				}
 			}
 		}
-		else if (state == "SELECT_DIFF") {
+		/*else if (state == "SELECT_DIFF") {
 			cout << "select difficulty:\n 1 = easy, 2 = normal, 3 = hard\n";
 			while (state == "SELECT_DIFF") {
 				cin >> difficulty;
@@ -104,7 +108,7 @@ int main()
 					cout << "invalid difficulty!\n";
 				}
 			}
-		}
+		}*/
 		//might wanna move these to the top?
 		else if (state == "GAME") {
 			Level* level = new Level(difficulty, wordArray);
@@ -112,11 +116,12 @@ int main()
 			//actual game loop :)
 			while (state == "GAME") {
 				//cout << level->currentEncounter()->encounterType << "enc type\n";
-				if (level->currentEncounter()->encounterType == "ENEMY") {
+				if (level->currentEncounter()->encounterType == "ENEMY" && !level->levelComplete) {
 					Enemy* currentEnemy = dynamic_cast<EnemyEncounter*>(level->currentEncounter())->enemy;
 					string status;
 					while (currentPlayer->health > 0) {
 						cout << currentPlayer->getVis();
+						cout << "Score: " << score << endl;
 						currentEnemy->display();
 
 						//main code starts here
@@ -155,14 +160,26 @@ int main()
 						}
 						else
 						{
+							if (currentEnemy->pastGuesses.size() == currentEnemy->selWord.size()) {
+								score += 25;
+							}
+							else if (currentEnemy->pastGuesses.size() > currentEnemy->selWord.size()){
+								score += 10;
+							}
 							cout << "type 'next' to move to the next encounter\n";
 							cin >> playerEntry;
 							transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 							if (playerEntry == "next") {
-								//level next encounter
-								level->nextEncounter();
-								system("cls");
-								break;
+								if (level->levelComplete) {
+									difficulty++;
+									break;
+								}
+								else {
+									//level next encounter
+									level->nextEncounter();
+									system("cls");
+									break;
+								}
 							}
 						
 						}
@@ -188,6 +205,8 @@ int main()
 				else if (level->levelComplete) {
 					cout << "the level is cleared!\n next level";
 					cin >> playerEntry;
+					difficulty++;
+					score += 5;
 					system("cls");
 					//increase difficulty / level size here!
 					break;
@@ -205,14 +224,27 @@ int main()
  | |__| |/ ____ \| |  | | |____  | |__| | \  /  | |____| | \ \ 
   \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\
 )" << endl << endl;
-			cout << "type restart to try again!" << endl;
+			cout << "Write your name to the high scores: " << endl;
+			cin >> playerName;
+			scoreFile.open("score.txt", fstream::app);
+			scoreFile << playerName << ": " << score << "\n";
+			scoreFile.close();
+			readFile.open("score.txt", fstream::app);
+			cout << endl << "HIGHSCORES" << endl;
+				while (getline(readFile, readLine))
+				{
+					cout << readLine << '\n';
+				}
+			readFile.close();
+			cout << endl << "type restart to try again!" << endl;
 			while (state == "GAME OVER") {
 				cin >> playerEntry;
 				if (playerEntry == "restart") {
 					system("cls");
-					difficulty = 0;
+					difficulty = 1;
 					currentPlayer->updateHealth(7);
-					state = "SELECT_DIFF";
+					score = 0;
+					state = "GAME";
 					break;
 				}
 			} 

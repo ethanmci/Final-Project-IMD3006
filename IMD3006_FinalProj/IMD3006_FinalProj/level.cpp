@@ -20,11 +20,19 @@ Level::Level(int newDiff, string *wordList)
 						validWord = true;
 				}
 				else if (this->difficulty == 2) {
+					if (selWord.length() <= 5)
+						validWord = true;
+				}
+				else if (this->difficulty == 3) {
 					if (selWord.length() <= 6)
 						validWord = true;
 				}
+				else if (this->difficulty == 4) {
+					if (selWord.length() <= 7)
+						validWord = true;
+				}
 				else {
-					if (selWord.length() > 4)
+					if (selWord.length() > 6)
 						validWord = true;
 				}
 			}
@@ -46,5 +54,6 @@ void Level::nextEncounter()
 	}
 	else {
 		this->levelComplete = true;
+		cout << "i am working";
 	}
 }
