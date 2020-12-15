@@ -124,10 +124,10 @@ int main()
 						cout << "Score: " << score << endl;
 						currentEnemy->display();
 
+						cin >> playerGuess;
 						//main code starts here
 						if (!currentEnemy->dead) {
 							do {
-								cin >> playerGuess;
 								alreadyGuessed = false;
 								for (int t = 0; t < currentEnemy->pastGuesses.size(); t++) {
 									if (playerGuess == currentEnemy->pastGuesses[t]) {
@@ -136,6 +136,7 @@ int main()
 								}
 								if (alreadyGuessed) {
 									cout << "letter already guessed!\n";
+									cin >> playerGuess;
 								}
 							} while (alreadyGuessed == true);
 							if (!currentEnemy->dead) {
