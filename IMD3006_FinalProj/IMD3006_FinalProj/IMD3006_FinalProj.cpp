@@ -170,6 +170,9 @@ int main()
 									else if (currentEnemy->pastGuesses.size() > currentEnemy->selWord.size()) {
 										score += 10;
 									}
+									else if (currentEnemy->pastGuesses.size() < currentEnemy->selWord.size()) {
+										score += 30;
+									}
 									if (level->levelComplete) {
 										difficulty++;
 										break;
