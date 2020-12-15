@@ -3,7 +3,7 @@
 
 void ItemEncounter::getEncounterVis()
 {
-	//this->item->getVis();
+	this->item->getVis();
 }
 
 ItemEncounter::ItemEncounter()

@@ -8,7 +8,6 @@
 #include <time.h> 
 #include <vector>
 #include <algorithm>
-
 #include "GameClassesHeader.h" //includes all game specific classes
 using namespace std;
 
@@ -18,6 +17,7 @@ void gameEncounters(Level* level) {
 
 int main()
 {
+
 	ifstream wordList("wordlist.txt");
 	string word;
 	string wordArray[980];
@@ -170,12 +170,22 @@ int main()
 					}		
 				}
 				else if (level->currentEncounter()->encounterType == "ITEM") {
+					Item* currentItem = dynamic_cast<ItemEncounter*>(level->currentEncounter())->item;
 					//add item collection here!
-					cout << "we is items\n";
-					cin >> playerEntry;
-					level->nextEncounter();
-					system("cls");
-				} else if (level->levelComplete){
+					currentItem->encounterDisplay();
+					cout << "type 'next' to move to the next encounter\n";
+					while (1) {
+						cin >> playerEntry;
+						transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
+						if (playerEntry == "next") {
+							//level next encounter
+							level->nextEncounter();
+							system("cls");
+							break;
+						}
+					}
+				} 
+				else if (level->levelComplete) {
 					cout << "the level is cleared!\n next level";
 					cin >> playerEntry;
 					system("cls");
