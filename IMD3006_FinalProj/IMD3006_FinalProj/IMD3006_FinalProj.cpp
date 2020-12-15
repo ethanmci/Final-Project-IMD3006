@@ -160,27 +160,31 @@ int main()
 						}
 						else
 						{
-							if (currentEnemy->pastGuesses.size() == currentEnemy->selWord.size()) {
-								score += 25;
-							}
-							else if (currentEnemy->pastGuesses.size() > currentEnemy->selWord.size()){
-								score += 10;
-							}
 							cout << "type 'next' to move to the next encounter\n";
-							cin >> playerEntry;
-							transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
-							if (playerEntry == "next") {
-								if (level->levelComplete) {
-									difficulty++;
-									break;
+									cin >> playerEntry;
+									transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
+								if (playerEntry == "next") {
+									if (currentEnemy->pastGuesses.size() == currentEnemy->selWord.size()) {
+										score += 25;
+									}
+									else if (currentEnemy->pastGuesses.size() > currentEnemy->selWord.size()) {
+										score += 10;
+									}
+									if (level->levelComplete) {
+										difficulty++;
+										break;
+									}
+									else {
+										//level next encounter
+										level->nextEncounter();
+										system("cls");
+										break;
+									}
 								}
-								else {
-									//level next encounter
-									level->nextEncounter();
-									system("cls");
-									break;
+								else if (playerEntry != "next"){
+									cout << "wrong input" << endl;
 								}
-							}
+							
 						
 						}
 						system("cls");
