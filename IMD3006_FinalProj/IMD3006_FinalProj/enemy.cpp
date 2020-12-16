@@ -43,7 +43,7 @@ void Enemy::update()
 
 void Enemy::display()
 {
-	cout << "Past Guesses[";
+	cout << "Past Guesses: [";
 	for (int g = 0; g < this->pastGuesses.size(); g++) {
 		cout << this->pastGuesses[g] << ", ";
 	}
@@ -54,7 +54,7 @@ void Enemy::display()
 	if (this->pastGuesses.size() == 0)
 		cout << "a " << this->getEnemyType() << " approaches!\n";
 	else if(this->dead)
-		cout << "a " << this->getEnemyType() << " has been defeated!\n";
+		cout << "the " << this->getEnemyType() << " has been defeated!\n";
 	cout << "word: ";
 	for (int x = 0; x < this->selWord.length(); ++x)
 	{

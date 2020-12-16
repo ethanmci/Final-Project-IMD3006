@@ -24,7 +24,7 @@ int main()
 	unsigned int lineNum = 0;
 	int randomGen;
 	string playerEntry; //should maybe replace player guess?
-	char playerGuess;
+	string playerGuess;
 	Player* currentPlayer = new Player();
 	string state = "NEW_GAME";
 	int difficulty = 1;
@@ -123,24 +123,26 @@ int main()
 						cout << currentPlayer->getVis();
 						cout << "Score: " << score << endl;
 						currentEnemy->display();
-
-						cin >> playerGuess;
-						//main code starts here
+						cout << status;
 						if (!currentEnemy->dead) {
-							do {
-								alreadyGuessed = false;
-								for (int t = 0; t < currentEnemy->pastGuesses.size(); t++) {
-									if (playerGuess == currentEnemy->pastGuesses[t]) {
-										alreadyGuessed = true;
+							cout << "guess a letter or enter a command: ";
+							cin >> playerGuess;
+							//main code starts here
+							if (playerGuess.length() == 1) {
+								do {
+									alreadyGuessed = false;
+									for (int t = 0; t < currentEnemy->pastGuesses.size(); t++) {
+										if (playerGuess[0] == currentEnemy->pastGuesses[t]) {
+											alreadyGuessed = true;
+										}
 									}
-								}
-								if (alreadyGuessed) {
-									cout << "letter already guessed!\n";
-									cin >> playerGuess;
-								}
-							} while (alreadyGuessed == true);
-							if (!currentEnemy->dead) {
-								if (currentEnemy->selWord.find(playerGuess) != string::npos) {
+									if (alreadyGuessed) {
+										cout << "letter already guessed!\n";
+										cin >> playerGuess;
+									}
+								} while (alreadyGuessed == true);
+
+								if (currentEnemy->selWord.find(playerGuess[0]) != string::npos) {
 									status = "letter is in the word!\n";
 								}
 								else {
@@ -150,20 +152,32 @@ int main()
 
 								//checking the player's status
 								if (currentPlayer->health <= 0) {
-									state = "GAME OVER";
+									state = "GAME_OVER";
 								}
 								else {
 									status += "You have " + to_string(currentPlayer->health) + " health left!\n";
+
 								}
+
+								currentEnemy->pastGuesses.push_back(playerGuess[0]);
+							}
+							else if (playerGuess == "inv") {
+								system("cls");
+								status = currentPlayer->getInv();
+							}
+							else
+							{
+								status = "invalid entry, must only be 1 letter\n";
 							}
 
-							currentEnemy->pastGuesses.push_back(playerGuess);
+
 						}
-						else
-						{
+						else {
+							//assume enemy is dead
 							cout << "type 'next' to move to the next encounter\n";
-									cin >> playerEntry;
-									transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
+							while (1) {
+								cin >> playerEntry;
+								transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 								if (playerEntry == "next") {
 									if (currentEnemy->pastGuesses.size() == currentEnemy->selWord.size()) {
 										score += 25;
@@ -176,6 +190,7 @@ int main()
 									}
 									if (level->levelComplete) {
 										difficulty++;
+										system("cls");
 										break;
 									}
 									else {
@@ -185,14 +200,14 @@ int main()
 										break;
 									}
 								}
-								else if (playerEntry != "next"){
-									cout << "wrong input" << endl;
+								else if (playerEntry != "next") {
+									cout << "invalid input\n";
 								}
-							
-						
+							}
+							break;
 						}
 						system("cls");
-					}		
+					}
 				}
 				else if (level->currentEncounter()->encounterType == "ITEM") {
 					Item* currentItem = dynamic_cast<ItemEncounter*>(level->currentEncounter())->item;
@@ -204,12 +219,13 @@ int main()
 						transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 						if (playerEntry == "next") {
 							//level next encounter
+							currentPlayer->inventory.push_back(currentItem);
 							level->nextEncounter();
 							system("cls");
 							break;
 						}
 					}
-				} 
+				}
 				else if (level->levelComplete) {
 					cout << "the level is cleared!\n next level";
 					cin >> playerEntry;
@@ -220,9 +236,9 @@ int main()
 					break;
 				}
 			}
-			
+
 		}
-		else if (state == "GAME OVER") {
+		else if (state == "GAME_OVER") {
 			system("cls");
 			cout << R"(
    _____          __  __ ______    ______      ________ _____  
@@ -239,13 +255,13 @@ int main()
 			scoreFile.close();
 			readFile.open("score.txt", fstream::app);
 			cout << endl << "HIGHSCORES" << endl;
-				while (getline(readFile, readLine))
-				{
-					cout << readLine << '\n';
-				}
+			while (getline(readFile, readLine))
+			{
+				cout << readLine << '\n';
+			}
 			readFile.close();
 			cout << endl << "type restart to try again!" << endl;
-			while (state == "GAME OVER") {
+			while (state == "GAME_OVER") {
 				cin >> playerEntry;
 				if (playerEntry == "restart") {
 					system("cls");
@@ -255,7 +271,7 @@ int main()
 					state = "GAME";
 					break;
 				}
-			} 
+			}
 
 		}
 	}
