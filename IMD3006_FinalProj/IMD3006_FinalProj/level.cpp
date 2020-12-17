@@ -54,6 +54,5 @@ void Level::nextEncounter()
 	}
 	else {
 		this->levelComplete = true;
-		cout << "i am working";
 	}
 }
