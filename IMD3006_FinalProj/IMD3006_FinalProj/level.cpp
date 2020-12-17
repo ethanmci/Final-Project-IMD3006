@@ -5,9 +5,9 @@ Level::Level(int newDiff, string *wordList)
 	this->difficulty = newDiff;
 	this->posInLvl = 0;
 	this->levelComplete = false;
-	for (int i = 0; i < 6; i++) {
-		if (i % 4 == 0 && i != 0) {
-			this->encounters.insert(this->encounters.begin(), new ItemEncounter());
+	for (int i = 0; i < 7; i++) {
+		if ((i + 1) % 2 == 0 && i != 0) {
+			this->encounters.push_back(new ItemEncounter());
 		}
 		else {
 			string selWord;
@@ -36,7 +36,7 @@ Level::Level(int newDiff, string *wordList)
 						validWord = true;
 				}
 			}
-			this->encounters.insert(this->encounters.begin(), new EnemyEncounter(selWord));
+			this->encounters.push_back(new EnemyEncounter(selWord));
 		}
 	}
 }

@@ -21,7 +21,6 @@ int main()
 	string word;
 	string wordArray[980];
 	unsigned int lineNum = 0;
-	int randomGen;
 	string playerEntry;
 	Player* currentPlayer = new Player();
 	string state = "NEW_GAME";
@@ -33,6 +32,8 @@ int main()
 	string playerName;
 	string lastWord;
 	int score = 0;
+
+	srand(time(NULL));
 
 	while (getline(wordList, word)) {
 		wordArray[lineNum] = word;
@@ -230,7 +231,8 @@ type 'back' to return to the main screen
 					}
 				}
 				else if (level->levelComplete) {
-					cout << "the level is cleared!\n next level";
+					currentPlayer->updateHealth(100);
+					cout << "the level is cleared and the player has been healed fully!\n type anything for the next level";
 					cin >> playerEntry;
 					difficulty++;
 					score += 5;
@@ -270,7 +272,7 @@ type 'back' to return to the main screen
 				if (playerEntry == "restart") {
 					system("cls");
 					difficulty = 1;
-					currentPlayer->updateHealth(7);
+					currentPlayer->updateHealth(100);
 					score = 0;
 					state = "GAME";
 					break;
