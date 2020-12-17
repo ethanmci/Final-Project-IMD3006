@@ -23,8 +23,7 @@ int main()
 	string wordArray[980];
 	unsigned int lineNum = 0;
 	int randomGen;
-	string playerEntry; //should maybe replace player guess?
-	string playerGuess;
+	string playerEntry;
 	Player* currentPlayer = new Player();
 	string state = "NEW_GAME";
 	int difficulty = 1;
@@ -34,20 +33,6 @@ int main()
 	string readLine;
 	string playerName;
 	int score = 0;
-	/*if (pastGuesses.size() == wordlength)
-	score += 25
-	else if (round is over and health is not 0)
-	score += 10
-	if levels completed is a multiple of 5
-	score += 5
-
-	also
-	line 392 up to 4 letter words
-	line 592 up to 5 letter words
-	the rest are 6 and longer
-
-
-		*/
 
 	srand(time(NULL));
 
@@ -56,12 +41,11 @@ int main()
 	while (getline(wordList, word)) {
 		wordArray[lineNum] = word;
 		lineNum++;
-		//cout << word << endl;
 	}
-	//gheto solution LOL, fix this later 
 	while (1) {
 		if (state == "NEW_GAME") {
-			cout << R"(
+			while (state == "NEW_GAME") {
+				cout << R"(
   ______  ____  _____          _____ _____ _   _  _____  
  |  ____|/ ____|/ ____|   /\   |  __ \_   _| \ | |/ ____| 
  | |__  | (___ | |       /  \  | |__) || | |  \| | |  __  
@@ -79,41 +63,53 @@ int main()
  | |__| |/ ____ \| |____| |___| |__| | \  /\  /  ____) |  
   \_____/_/    \_\______|______\____/   \/  \/  |_____/   
 )" << endl;
-			cout << "type 'start' to start!\n";
-			while (state == "NEW_GAME") {
+				cout << "type 'start' to start!\ntype 'about' to learn how to play\n";
 				cin >> playerEntry;
+				transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 				if (playerEntry == "start") {
 					system("cls");
 					state = "GAME";
 					break;
 				}
-				else  if (playerEntry == "credits") {
-					//any librarys that need credit go here?
+				else  if (playerEntry == "about") {
+					system("cls");
+					cout << R"(
+== HOW TO PLAY ESCAPING THE GALLOWS ==
+
+in ESCAPING THE GALLOWS you descend into an endless dungeon with the goal of making it further 
+than all those who have come before you
+
+to defeat ENEMIES you must correctly guess their word one letter at a time, each time you fail to 
+guess correctly you will take damage
+
+your health is visualized by a hangman, when the hangman is fully drawn you are dead
+
+in your journey, you will find potions scattered throughout the dungeon from past explorers, 
+by acessing your inventory using 'inv' you can make use of these potions and their effects to help you 
+overcome whatever challenges you may face!
+
+type 'back' to return to the main screen
+)";
+					while (1) {
+						cin >> playerEntry;
+						transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
+						if(playerEntry == "back") {
+							system("cls");
+							break;
+						}
+						else {
+							cout << "invalid entry\n";
+						}
+					}
 				}
 				else {
-					cout << "invalid entry" << endl; //temp fix again :)
+					cout << "invalid entry" << endl; 
 				}
 			}
 		}
-		/*else if (state == "SELECT_DIFF") {
-			cout << "select difficulty:\n 1 = easy, 2 = normal, 3 = hard\n";
-			while (state == "SELECT_DIFF") {
-				cin >> difficulty;
-				if (difficulty > 0 && difficulty < 4) {
-					system("cls");
-					state = "GAME";
-					break;
-				}
-				else {
-					cout << "invalid difficulty!\n";
-				}
-			}
-		}*/
 		//might wanna move these to the top?
 		else if (state == "GAME") {
 			Level* level = new Level(difficulty, wordArray);
-			//gameEncounters(level);
-			//actual game loop :)
 			while (state == "GAME") {
 				//cout << level->currentEncounter()->encounterType << "enc type\n";
 				if (level->currentEncounter()->encounterType == "ENEMY" && !level->levelComplete) {
@@ -126,23 +122,23 @@ int main()
 						cout << status;
 						if (!currentEnemy->dead) {
 							cout << "guess a letter or enter a command: ";
-							cin >> playerGuess;
+							cin >> playerEntry;
 							//main code starts here
-							if (playerGuess.length() == 1) {
+							if (playerEntry.length() == 1) {
 								do {
 									alreadyGuessed = false;
 									for (int t = 0; t < currentEnemy->pastGuesses.size(); t++) {
-										if (playerGuess[0] == currentEnemy->pastGuesses[t]) {
+										if (playerEntry[0] == currentEnemy->pastGuesses[t]) {
 											alreadyGuessed = true;
 										}
 									}
 									if (alreadyGuessed) {
 										cout << "letter already guessed!\n";
-										cin >> playerGuess;
+										cin >> playerEntry;
 									}
 								} while (alreadyGuessed == true);
 
-								if (currentEnemy->selWord.find(playerGuess[0]) != string::npos) {
+								if (currentEnemy->selWord.find(playerEntry[0]) != string::npos) {
 									status = "letter is in the word!\n";
 								}
 								else {
@@ -159,9 +155,9 @@ int main()
 
 								}
 
-								currentEnemy->pastGuesses.push_back(playerGuess[0]);
+								currentEnemy->pastGuesses.push_back(playerEntry[0]);
 							}
-							else if (playerGuess == "inv") {
+							else if (playerEntry == "inv") {
 								system("cls");
 								status = currentPlayer->getInv(currentEnemy);
 							}
