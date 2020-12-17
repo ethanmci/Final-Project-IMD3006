@@ -48,7 +48,6 @@ void Enemy::display()
 		cout << this->pastGuesses[g] << ", ";
 	}
 	cout << "]";
-	//cout << endl << this->selWord << endl; //debugging output
 	this->update();
 	cout << this->getVis();
 	if (this->pastGuesses.size() == 0)
