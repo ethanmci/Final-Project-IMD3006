@@ -1,1 +1,2 @@
-player2: 10
+myname: 20
+oops: 0
