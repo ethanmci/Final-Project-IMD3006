@@ -34,10 +34,6 @@ int main()
 	string lastWord;
 	int score = 0;
 
-	srand(time(NULL));
-
-	randomGen = rand() % 980 + 1;
-
 	while (getline(wordList, word)) {
 		wordArray[lineNum] = word;
 		lineNum++;
