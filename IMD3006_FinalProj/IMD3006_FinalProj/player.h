@@ -92,4 +92,3 @@ R"(
 	Player();
 	void updateHealth(int updateAmt);
 };
-

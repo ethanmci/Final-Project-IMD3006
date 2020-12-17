@@ -43,4 +43,3 @@ R"(
 	void encounterDisplay();
 	Item();
 };
-
