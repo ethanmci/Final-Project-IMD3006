@@ -59,7 +59,7 @@ void Player::updateHealth(int updateAmt)
 		this->health += updateAmt;
 	}
 	else if (this->health + updateAmt >= 11) {
-		//clamping max health at 7
+		//clamping max health at 10
 		this->health = 10;
 	}
 }
