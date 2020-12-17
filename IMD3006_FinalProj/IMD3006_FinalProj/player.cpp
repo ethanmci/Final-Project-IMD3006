@@ -1,5 +1,7 @@
 #include "player.h"
+#include "enemy.h"
 #include <iostream>
+#include <algorithm>
 
 Player::Player()
 {
@@ -11,35 +13,53 @@ string Player::getVis()
 	return healthVis[7 - health];
 }
 
-string Player::getInv()
+string Player::getInv(Enemy* currEnemy)
 {
 	cout << "===INVENTORY===\n";
 	for (int i = 0; i < inventory.size(); i++) {
 		cout << (i + 1) << " --> ";
 		cout << inventory[i]->names[inventory[i]->selPotion] << endl;
-		cout << "---------------\n";
+		cout << "-----------------\n";
 	}
-	
+
 	cout << "\nenter the number of the item you want to use, or type 'back' to return to combat\n";
 	string selection;
 	while (1) {
 		cin >> selection;
-		if (selection == "back") {
-			system("cls");
-			return "";
+		transform(selection.begin(), selection.end(), selection.begin(), tolower);
+		try {
+			int strToInt = stoi(selection, nullptr, 10) - 1;
+			if (strToInt < this->inventory.size() && strToInt >= 0) {
+				string out;
+				out = this->inventory[strToInt]->applyEffect(this, currEnemy);
+				this->inventory.erase(inventory.begin() + strToInt);
+				return out;
+			}
+			else {
+				cout << "invalid invintory slot\n";
+			}
 		}
-		else {
-			system("cls");
-			return "pretend a potion was applied ok?";
+		catch (...) {
+			//input cannot be converted, assume player is entering a command
+			if (selection == "back") {
+				return "";
+			}
+			else {
+				cout << "invalid input\n";
+			}
 		}
+
 	}
-	//process selection here!
 }
 
 void Player::updateHealth(int updateAmt)
 {
-	//"clamps" health value at 0
-	if (this->health + updateAmt >= 0) {
+	if (this->health + updateAmt >= 0 && this->health + updateAmt < 8) {
+		//"clamps" health value at 0
 		this->health += updateAmt;
+	}
+	else if (this->health + updateAmt >= 8) {
+		//clamping max health at 7
+		this->health = 7;
 	}
 }

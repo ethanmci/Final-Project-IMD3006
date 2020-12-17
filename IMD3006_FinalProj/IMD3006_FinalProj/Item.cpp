@@ -7,21 +7,31 @@ string Item::getVis()
 	return this->visuals[selPotion];
 }
 
-void Item::applyEffect(Player* player, Enemy* enemy)
+string Item::applyEffect(Player* player, Enemy* enemy)
 {
 	if (selPotion == 0) {
 		//potion of healing
 		player->updateHealth(2);
+		return "the player has been healed from the potion!\n";
 	}
 	else if (selPotion == 1) {
 		//potion of revealing
 		bool revealed = false;
+		char newLetter;
 		while (!revealed) {
-			enemy->selWord[rand() % enemy->selWord.length()];
+			newLetter = enemy->selWord[rand() % enemy->selWord.length()];
+			revealed = true;
+			for (int i = 0; i < enemy->pastGuesses.size(); i++) {
+				if (newLetter == enemy->pastGuesses[i])
+					revealed = false;
+			}
 		}
+		enemy->pastGuesses.push_back(newLetter);
+		return "the enemy has had a letter revealed with the potion!\n";
 	}
 	else if (selPotion == 2) {
 		enemy->dead = true;
+		return "the enemy has been killed with the potion!\n";
 	}
 }
 
@@ -35,6 +45,6 @@ void Item::encounterDisplay()
 
 Item::Item()
 {
-	this->selPotion = rand() % 2;
+	this->selPotion = rand() % 3;
 }
 

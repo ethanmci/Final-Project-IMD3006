@@ -163,7 +163,7 @@ int main()
 							}
 							else if (playerGuess == "inv") {
 								system("cls");
-								status = currentPlayer->getInv();
+								status = currentPlayer->getInv(currentEnemy);
 							}
 							else
 							{

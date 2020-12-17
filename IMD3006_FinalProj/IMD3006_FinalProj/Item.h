@@ -39,7 +39,7 @@ R"(
 	int selPotion;
 
 	string getVis();
-	void applyEffect(Player* player, Enemy* enemy);
+	string applyEffect(Player* player, Enemy* enemy);
 	void encounterDisplay();
 	Item();
 };

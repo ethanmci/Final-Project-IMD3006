@@ -4,6 +4,8 @@
 #include <vector>
 
 using namespace std;
+
+class Enemy;
 class Player
 {
 public:
@@ -86,7 +88,7 @@ R"(
 	
 	//methods
 	string getVis();
-	string getInv();
+	string getInv(Enemy* currEnemy);
 	Player();
 	void updateHealth(int updateAmt);
 };
