@@ -58,5 +58,8 @@
     <Text Include="wordlist.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="score.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>

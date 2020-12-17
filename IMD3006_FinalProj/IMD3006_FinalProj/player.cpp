@@ -5,12 +5,12 @@
 
 Player::Player()
 {
-	this->health = 7;
+	this->health = 10;
 }
 
 string Player::getVis()
 {
-	return healthVis[7 - health];
+	return healthVis[10 - health];
 }
 
 string Player::getInv(Enemy* currEnemy)
@@ -54,12 +54,12 @@ string Player::getInv(Enemy* currEnemy)
 
 void Player::updateHealth(int updateAmt)
 {
-	if (this->health + updateAmt >= 0 && this->health + updateAmt < 8) {
+	if (this->health + updateAmt >= 0 && this->health + updateAmt < 11) {
 		//"clamps" health value at 0
 		this->health += updateAmt;
 	}
-	else if (this->health + updateAmt >= 8) {
+	else if (this->health + updateAmt >= 11) {
 		//clamping max health at 7
-		this->health = 7;
+		this->health = 10;
 	}
 }

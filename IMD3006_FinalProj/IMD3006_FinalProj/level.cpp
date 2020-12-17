@@ -5,7 +5,7 @@ Level::Level(int newDiff, string *wordList)
 	this->difficulty = newDiff;
 	this->posInLvl = 0;
 	this->levelComplete = false;
-	for (int i = 0; i < 10; i++) {
+	for (int i = 0; i < 6; i++) {
 		if (i % 4 == 0 && i != 0) {
 			this->encounters.insert(this->encounters.begin(), new ItemEncounter());
 		}

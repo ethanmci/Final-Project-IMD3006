@@ -1,2 +1,1 @@
-myname: 20
-oops: 0
+elf: 20

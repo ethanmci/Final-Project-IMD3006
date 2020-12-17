@@ -17,7 +17,6 @@ void gameEncounters(Level* level) {
 
 int main()
 {
-
 	ifstream wordList("wordlist.txt");
 	string word;
 	string wordArray[980];
@@ -32,6 +31,7 @@ int main()
 	ifstream readFile;
 	string readLine;
 	string playerName;
+	string lastWord;
 	int score = 0;
 
 	srand(time(NULL));
@@ -66,14 +66,15 @@ int main()
 				cout << "type 'start' to start!\ntype 'about' to learn how to play\n";
 				cin >> playerEntry;
 				transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
-				if (playerEntry == "start") {
-					system("cls");
-					state = "GAME";
-					break;
-				}
-				else  if (playerEntry == "about") {
-					system("cls");
-					cout << R"(
+				while (1) {
+					if (playerEntry == "start") {
+						system("cls");
+						state = "GAME";
+						break;
+					}
+					else if (playerEntry == "about") {
+						system("cls");
+						cout << R"(
 == HOW TO PLAY ESCAPING THE GALLOWS ==
 
 in ESCAPING THE GALLOWS you descend into an endless dungeon with the goal of making it further 
@@ -90,21 +91,25 @@ overcome whatever challenges you may face!
 
 type 'back' to return to the main screen
 )";
-					while (1) {
+						while (1) {
+							cin >> playerEntry;
+							transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
+							if (playerEntry == "back") {
+								system("cls");
+								break;
+							}
+							else {
+								cout << "invalid entry\n";
+							}
+						}
+						break;
+					}
+					else {
+						cout << "invalid entry" << endl;
 						cin >> playerEntry;
-						transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
-						if(playerEntry == "back") {
-							system("cls");
-							break;
-						}
-						else {
-							cout << "invalid entry\n";
-						}
 					}
 				}
-				else {
-					cout << "invalid entry" << endl; 
-				}
+				
 			}
 		}
 		//might wanna move these to the top?
@@ -114,6 +119,7 @@ type 'back' to return to the main screen
 				//cout << level->currentEncounter()->encounterType << "enc type\n";
 				if (level->currentEncounter()->encounterType == "ENEMY" && !level->levelComplete) {
 					Enemy* currentEnemy = dynamic_cast<EnemyEncounter*>(level->currentEncounter())->enemy;
+					lastWord = currentEnemy->selWord; //saving word for potential display on defeat
 					string status;
 					while (currentPlayer->health > 0) {
 						cout << currentPlayer->getVis();
@@ -123,8 +129,9 @@ type 'back' to return to the main screen
 						if (!currentEnemy->dead) {
 							cout << "guess a letter or enter a command: ";
 							cin >> playerEntry;
+							transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 							//main code starts here
-							if (playerEntry.length() == 1) {
+							if (playerEntry.length() == 1 && isalpha(playerEntry[0])) {
 								do {
 									alreadyGuessed = false;
 									for (int t = 0; t < currentEnemy->pastGuesses.size(); t++) {
@@ -135,6 +142,7 @@ type 'back' to return to the main screen
 									if (alreadyGuessed) {
 										cout << "letter already guessed!\n";
 										cin >> playerEntry;
+										transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 									}
 								} while (alreadyGuessed == true);
 
@@ -220,6 +228,9 @@ type 'back' to return to the main screen
 							system("cls");
 							break;
 						}
+						else {
+							cout << "invalid entry\n";
+						}
 					}
 				}
 				else if (level->levelComplete) {
@@ -228,7 +239,6 @@ type 'back' to return to the main screen
 					difficulty++;
 					score += 5;
 					system("cls");
-					//increase difficulty / level size here!
 					break;
 				}
 			}
@@ -244,6 +254,7 @@ type 'back' to return to the main screen
  | |__| |/ ____ \| |  | | |____  | |__| | \  /  | |____| | \ \ 
   \_____/_/    \_\_|  |_|______|  \____/   \/   |______|_|  \_\
 )" << endl << endl;
+			cout << "THE WORD WAS: " << lastWord << endl;
 			cout << "Write your name to the high scores: " << endl;
 			cin >> playerName;
 			scoreFile.open("score.txt", fstream::app);
@@ -259,6 +270,7 @@ type 'back' to return to the main screen
 			cout << endl << "type restart to try again!" << endl;
 			while (state == "GAME_OVER") {
 				cin >> playerEntry;
+				transform(playerEntry.begin(), playerEntry.end(), playerEntry.begin(), tolower);
 				if (playerEntry == "restart") {
 					system("cls");
 					difficulty = 1;
@@ -266,6 +278,9 @@ type 'back' to return to the main screen
 					score = 0;
 					state = "GAME";
 					break;
+				}
+				else {
+					cout << "invalid input\n";
 				}
 			}
 
